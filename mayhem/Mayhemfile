@@ -1,0 +1,13 @@
+project: savantenvs/mazucc
+target: mzcc
+
+cmds:
+  # In-process libFuzzer harness over MazuCC's real parse+codegen path (build/mzcc is built from the
+  # upstream sources + mayhem/mzcc/fuzz_mzcc.c with -fsanitize=fuzzer). libFuzzer supplies the edge
+  # coverage Mayhem's engine needs — the previous raw-CLI target recorded 0 edges (SPEC.md item 11).
+  - cmd: /mayhem/build/mzcc
+    libfuzzer: true
+
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/mzcc/testsuite
